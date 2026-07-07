@@ -18,10 +18,10 @@ catching one real hallucinated citation end to end.
 - `check_source` allowlist-free authenticity is real design work, not a port (ADR-0004).
 
 **Pending**
-- Hello-world MCP ramp (protocol learning).
 
 **Recently finished:**
 - Repo scaffold, CLAUDE.md, ADRs 0001–0004 (decisions), 0005 (contract, proposed) - committed.
+- Hello-world MCP ramp (step A) — echo discovered and called end-to-end in Claude Desktop.
 
 ---
 
