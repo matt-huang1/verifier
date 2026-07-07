@@ -13,6 +13,7 @@ considered. Status is one of `Proposed`, `Accepted`, `Superseded by NNNN`.
 | [0003](0003-no-confidence-float-discrete-statuses.md) | No confidence float — statuses carry epistemic state | Accepted |
 | [0004](0004-verify-citation-first-check-source-next.md) | verify_citation first; check_source next, not cut | Accepted |
 | [0005](0005-v1-verdict-contract.md) | The V1 verify_citation contract | Proposed |
+| [0006](0006-logging-and-verdict-persistence.md) | Logging and verdict persistence | Accepted |
 
 ## Template
 
