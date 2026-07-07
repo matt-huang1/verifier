@@ -16,10 +16,25 @@ reintroduces exactly the failure mode: a generative model grading a generative c
 
 ## Decision
 
-Deterministic code issues every verdict. Where an LLM is used at all, it only ever
-*proposes* or *locates* (e.g. surfacing candidate supporting sentences); the final
-call is made by deterministic rules — quote matching, entity/number comparison —
-against the independently fetched source. No module lets a model grade its own output.
+The bar is not "no ML." Any component in the **judgment path** must be (1) reproducible,
+(2) traceable, and (3) have known, bounded failure modes. Three kinds of component sit
+differently against that bar:
+
+- **Deterministic rules** — quote matching, entity/number comparison against the
+  independently fetched source — meet all three. They are the sanctioned default and
+  issue every V1 verdict.
+- **A fixed-weight NLI model** is reproducible (same input → same output) but trades
+  *rule-level* traceability for a model error profile: you can characterise its failures
+  statistically but not point to the rule that fired. That is a deliberate, measured,
+  lower-assurance choice — permitted only via a future ADR that owns the trade-off, not
+  banned outright.
+- **A generative LLM freely emitting verdicts** fails all three — not reproducible, not
+  traceable, unbounded failure modes — and is the failure mode this project exists to
+  prevent. It stays prohibited in the judgment path.
+
+Where an LLM is used at all, it only ever *proposes* or *locates* (e.g. surfacing
+candidate supporting sentences); the final call is made against the fetched source by a
+component that clears the bar above. No module lets a model grade its own output.
 
 ## Consequences
 
@@ -34,4 +49,9 @@ against the independently fetched source. No module lets a model grade its own o
 
 - **LLM-as-judge.** Rejected: it is the failure mode, not a fix for it.
 - **LLM-as-extractor, deterministic decision.** Accepted as the *only* sanctioned role
-  for a generative model here, and even then gated behind deterministic checks.
+  for a *generative* model here, and even then gated behind deterministic checks.
+- **NLI (entailment) model for semantic support.** Deferred, not rejected: it is
+  discriminative rather than generative and is reproducible, so it is governed by the
+  Decision's three-part bar (reproducible / traceable / bounded failure modes), not the
+  generative-role prohibition. Its tradeoff — semantic-drift detection at the cost of
+  rule-level traceability — earns its own ADR if adopted.

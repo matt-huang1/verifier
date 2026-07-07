@@ -32,6 +32,12 @@ truth about the world. The model proposes; deterministic code judges.
 - **Anchoring inputs are explicit, never inferred.** The claim, the URL, and any quote
   are caller-supplied. If the tool inferred them, a hallucinated source could validate
   itself.
+- **Everything is traceable to its source.** Every element of a verdict — each passage,
+  each entity check — points back to a specific span of the fetched source. Nothing in
+  the output is free-floating; if it can't be anchored to the source, it isn't reported.
+- **Reproducibility is a testable property.** Same input → same output, with no
+  nondeterministic dependency in the judgment path. This is a checkable invariant (a
+  candidate Hypothesis property), not an aspiration.
 - **Trust is earned.** The adversarial harness proves the checks catch what they claim
   to; clean controls prove they don't pass by rejecting everything.
 

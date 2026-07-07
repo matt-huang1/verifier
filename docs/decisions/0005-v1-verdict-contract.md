@@ -1,6 +1,6 @@
 # ADR-0005: The V1 verify_citation contract
 
-- **Status:** Proposed  (to be finalised in the "contract design" chat — step B)
+- **Status:** Accepted
 - **Date:** 2026-07-07
 
 ## Context
@@ -22,21 +22,69 @@ Verdict:
   # never settable directly.
 ```
 
-## Open questions for step B
-
-1. **Input semantics.** The agent supplies the URL directly, so the search→propose→
-   url_compare front half of the original pipeline drops out. Confirm verify_citation
-   fetches *the given URL* and checks against it, with no search in the loop.
-2. **Computed status.** Carry over the "overall_status is a read-only computed property"
-   pattern from the prior repo. In Pydantic this is a computed field / model validator,
-   not a settable field — decide the exact mechanism.
-3. **Evidence shape.** What each `Evidence` and `EntityCheck` carries (matched text,
-   location/offset, match kind: exact | normalized | fuzzy — see 0003 sub-question).
-4. **Quote absent vs present.** With a quote: highest-precision path (quote match).
-   Without: entity/number cross-check only. Define both paths' status logic.
-5. **partially_supported.** Deferred from the V1 status set (0003); confirm it stays
-   deferred.
-
 ## Decision
 
-_Pending._
+### (a) Input semantics
+
+`verify_citation(claim, url, quote?)` fetches *the given* `url`, follows redirects, and
+checks fidelity against what it fetches. No web search in the loop. The resolved
+(post-redirect) URL is reported as evidence. Authenticity of the URL is **not** judged
+here — whether the domain is genuine or a lookalike is `check_source`'s job (see 0004).
+
+### (b) Computed status
+
+`status` is a computed Pydantic field, never settable directly. It is derived by a pure
+function `derive_status(source_state, evidence, entity_checks)`. Fetch state is an
+*input* to that function so that `source_unreachable` is honest and can never be faked
+as `not_found_in_source` — a failure to fetch and a failure to support are distinct
+mechanisms and must not blur (see CLAUDE.md, "Never guess").
+
+### (c) Schema objects
+
+```
+SourceReport:
+  requested_url: str
+  resolved_url: str            # after redirects
+  redirect_chain: list[str]
+  reachable: bool
+  status_code: int | None
+  error: str | None
+  fetched_at: datetime
+  # NB: no full page text is retained on the report.
+
+Evidence:
+  claimed_text: str
+  source_excerpt: str
+  match_kind: exact | normalized | fuzzy | absent
+  char_span: (int, int)        # span within the fetched source
+  # A fuzzy similarity ratio MAY be included as a mechanical measurement,
+  # not a confidence judgment (see 0003).
+
+EntityCheck:
+  kind: number | date | name | ...
+  claimed: str
+  found: str | None
+  result: agree | conflict | absent
+  source_excerpt: str
+```
+
+### (d) derive_status rules
+
+- Source unreachable → `source_unreachable`.
+- **Quote supplied (Path A — highest precision):**
+  - quote absent from source → `not_found_in_source`.
+  - quote found **and** a conflicting entity *within the matched region* →
+    `contradicted`.
+  - quote found, no conflict in the matched region → `supported`.
+  - Contradiction is scoped to the matched passage, not the whole page: a figure
+    disagreeing elsewhere on the page does not contradict a faithfully-quoted passage.
+- **No quote (Path B — conservative):** status maxes out at `not_found_in_source`. It
+  never asserts `supported` or `contradicted`. Evidence still lists every entity's
+  presence/absence with excerpts. Rationale: without a caller-anchored quote there is no
+  passage to bind the claim to, and under-claiming (honest "not found") is a cheaper
+  failure than over-claiming (a false "supported").
+
+### (e) partially_supported
+
+Stays deferred (see 0003). Any conflict under a matched quote goes straight to
+`contradicted`; there is no partial verdict in V1.
