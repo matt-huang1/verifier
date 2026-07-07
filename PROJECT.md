@@ -17,9 +17,11 @@ catching one real hallucinated citation end to end.
   contract/MCP step; MCP surface is isolated so churn can't reach the core (ADR-0002).
 - `check_source` allowlist-free authenticity is real design work, not a port (ADR-0004).
 
+**Pending**
+- Hello-world MCP ramp (protocol learning).
+
 **Recently finished:**
-- Hello-world MCP ramp (protocol learning) — _pending confirmation._
-- Repo scaffold, CLAUDE.md, ADRs 0001–0004 (decisions), 0005 (contract, proposed).
+- Repo scaffold, CLAUDE.md, ADRs 0001–0004 (decisions), 0005 (contract, proposed) - committed.
 
 ---
 
