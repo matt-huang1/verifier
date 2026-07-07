@@ -81,6 +81,31 @@ exists); updated docs; a CLI surface; an MCP tool (once MCP exists); a CHANGELOG
 an ADR if a meaningful decision was made; no lint or type errors; CI passing. This
 prevents "I'll document it later."
 
+## Git conventions
+
+Commit messages follow Conventional Commits. The subject says *what*; a body is added
+only when there is a *why* the diff cannot show.
+
+- **Subject:** `type: imperative summary` — max ~50 chars, no trailing full stop.
+  Imperative mood: "add quote matching", not "added"/"adds" (finish the sentence
+  "If applied, this commit will ___").
+- **Types:** `feat` (new capability), `fix` (bug), `docs`, `test`, `refactor`,
+  `chore` (tooling/setup), `ci`, `perf`.
+- **Body (optional):** blank line after subject, then *why* — the reasoning, the
+  rejected alternative, a subtle consequence. Wrap at ~72 chars. Omit for
+  self-explanatory changes.
+- **One logical change per commit.** Never mix a reformat with a feature.
+- **Length is not the goal.** A precise one-line subject beats a padded body; a
+  decision-bearing change deserves a body rather than a bare one-liner.
+
+```
+feat: add numeric token gate to quote match
+
+A fuzzy quote match could pass when the claim's figure disagreed with the
+source (e.g. "2035" vs "2050"). Gate the match on exact agreement of any
+numeric tokens so a mismatched figure returns contradicted, not supported.
+```
+
 ## Where things live
 
 - Decisions: `docs/decisions/` (ADRs — written when the decision is made, not after).
