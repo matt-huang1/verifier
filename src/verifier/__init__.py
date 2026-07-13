@@ -14,6 +14,7 @@ from verifier.models import (
     SourceReport,
     Status,
 )
+from verifier.verdict import Verdict
 
 __version__ = "0.0.0"
 
@@ -25,6 +26,7 @@ __all__ = [
     "MatchKind",
     "SourceReport",
     "Status",
+    "Verdict",
     "derive_status",
     "__version__",
 ]
