@@ -157,7 +157,7 @@ def test_json_shape_is_pinned() -> None:
         },
         "entity_checks": [
             {
-                "kind": "number",
+                "kind": "year",
                 "claimed": "2035",
                 "found": "2050",
                 "result": "conflict",

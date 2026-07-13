@@ -84,7 +84,7 @@ def test_tesla_2035_vs_2050_contradicts() -> None:
         fuzzy_ratio=0.94,
     )
     year_conflict = EntityCheck(
-        kind=EntityKind.NUMBER,
+        kind=EntityKind.YEAR,  # the extractor classifies 2035/2050 as YEAR (ADR-0010)
         claimed="2035",
         found="2050",
         result=EntityResult.CONFLICT,
@@ -126,7 +126,7 @@ def test_absent_evidence_forbids_span() -> None:
 def test_conflict_entity_requires_found_value() -> None:
     with pytest.raises(ValueError, match="requires a found value"):
         EntityCheck(
-            kind=EntityKind.NUMBER,
+            kind=EntityKind.YEAR,
             claimed="2035",
             found=None,
             result=EntityResult.CONFLICT,
@@ -137,7 +137,7 @@ def test_conflict_entity_requires_found_value() -> None:
 def test_absent_entity_forbids_found_value() -> None:
     with pytest.raises(ValueError, match="absent entity must not carry a found value"):
         EntityCheck(
-            kind=EntityKind.NUMBER,
+            kind=EntityKind.YEAR,
             claimed="2035",
             found="2050",
             result=EntityResult.ABSENT,

@@ -39,7 +39,9 @@ def entity(
     if result is EntityResult.ABSENT:
         found = None
     return EntityCheck(
-        kind=EntityKind.NUMBER,
+        # A year: the extractor classifies a bare 4-digit year-range number as YEAR
+        # (ADR-0010, amended), so the truth table feeds the judge a shape it can produce.
+        kind=EntityKind.YEAR,
         claimed=claimed,
         found=found,
         result=result,
