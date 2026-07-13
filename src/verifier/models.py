@@ -48,9 +48,19 @@ class MatchKind(str, Enum):
 
 
 class EntityKind(str, Enum):
-    """The class of a checked entity. Extensible; V1 checks numbers, dates, names."""
+    """The class of a checked entity — the *slot* two values are compared within.
 
+    Extensible. The extractor (ADR-0010) fills ``YEAR``, ``NUMBER``, ``PERCENTAGE`` and
+    ``CURRENCY``; ``DATE`` (full dates) and ``NAME`` are reserved for the deferred date
+    parser and the future named-entity proposer. The slot is load-bearing: a value only
+    ``agree``s with another of the *same* kind, so a ``YEAR`` 2035 and a ``NUMBER`` 2035
+    ("2035 cars") never compare equal — that is what the year/number disambiguation buys.
+    """
+
+    YEAR = "year"
     NUMBER = "number"
+    PERCENTAGE = "percentage"
+    CURRENCY = "currency"
     DATE = "date"
     NAME = "name"
 
