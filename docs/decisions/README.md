@@ -4,6 +4,11 @@ One record per meaningful decision, written **when the decision is made**, not
 reconstructed afterward. Each is one page: Context, Decision, Consequences, Alternatives
 considered. Status is one of `Proposed`, `Accepted`, `Superseded by NNNN`.
 
+A decision corrected **in part** stays `Accepted` and records the change in place: an
+`**Amended:** <date> — <summary>` line in the header block and a dated `## Amendment`
+section at the end (see ADR-0010 for the reference implementation). `Superseded by NNNN` is
+reserved for wholesale replacement of an ADR by a new one.
+
 ## Index
 
 | ADR | Title | Status |
@@ -26,6 +31,7 @@ considered. Status is one of `Proposed`, `Accepted`, `Superseded by NNNN`.
 
 - **Status:** Proposed | Accepted | Superseded by NNNN
 - **Date:** YYYY-MM-DD
+- **Amended:** YYYY-MM-DD — <summary> (see [Amendment](#amendment-yyyy-mm-dd))   ← only if amended
 
 ## Context
 What forces the decision. The problem, the constraints.
@@ -38,4 +44,8 @@ What this makes easy, hard, or impossible. Costs accepted.
 
 ## Alternatives considered
 What was rejected, and why.
+
+## Amendment (YYYY-MM-DD)   ← only if amended
+What was wrong with the original decision, what replaced it, and why. Stays `Accepted`; the
+Amended header line points here.
 ```
