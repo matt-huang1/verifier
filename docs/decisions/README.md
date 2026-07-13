@@ -14,6 +14,7 @@ considered. Status is one of `Proposed`, `Accepted`, `Superseded by NNNN`.
 | [0004](0004-verify-citation-first-check-source-next.md) | verify_citation first; check_source next, not cut | Accepted |
 | [0005](0005-v1-verdict-contract.md) | The V1 verify_citation contract | Proposed |
 | [0006](0006-logging-and-verdict-persistence.md) | Logging and verdict persistence | Accepted |
+| [0007](0007-sentence-scoped-contradiction-regions.md) | Sentence-scoped contradiction regions | Accepted |
 
 ## Template
 
