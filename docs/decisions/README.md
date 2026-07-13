@@ -16,6 +16,7 @@ considered. Status is one of `Proposed`, `Accepted`, `Superseded by NNNN`.
 | [0006](0006-logging-and-verdict-persistence.md) | Logging and verdict persistence | Accepted |
 | [0007](0007-sentence-scoped-contradiction-regions.md) | Sentence-scoped contradiction regions | Accepted |
 | [0008](0008-length-preserving-normalization.md) | Length-preserving normalization | Accepted |
+| [0009](0009-single-candidate-entity-conflict.md) | Single-candidate entity conflict | Accepted |
 
 ## Template
 
